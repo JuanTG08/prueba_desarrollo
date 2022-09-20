@@ -13,5 +13,6 @@ export interface IAccessPage {
 
 export interface IToken {
     access_page: IAccessPage;
-    dataUser: IDataUser;
+    _id: string;
+    iat: number;
 }

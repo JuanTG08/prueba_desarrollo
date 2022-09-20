@@ -1,7 +1,7 @@
 import Hook from "../config/utils";
 import UserModel from "../model/user.model";
-import { IToken } from '../interface/IToken';
-import RolModel from '../model/rol.model';
+import { IToken, IDataUser } from "../interface/IToken";
+import RolModel from "../model/rol.model";
 import tokenAuth from "../middleware/token-auth.middleware";
 
 class UserCtrl {
@@ -43,30 +43,47 @@ class UserCtrl {
     if (dataVerify !== true)
       return res.json(Hook.Message(true, 0, "Campos Vacios", dataVerify));
     const getUser = await UserModel.findOneUserByLogin(email);
-    if (!getUser || getUser.error || getUser.statusCode != 200 || !getUser.payload)
-        return res.json(getUser);
+    if (
+      !getUser ||
+      getUser.error ||
+      getUser.statusCode != 200 ||
+      !getUser.payload
+    )
+      return res.json(getUser);
     if (getUser.payload.length <= 0 || getUser.payload.password != password)
-        return res.json(Hook.Message(true, 401, "Usuario o Contraseña incorrectos"));
+      return res.json(
+        Hook.Message(true, 401, "Usuario o Contraseña incorrectos")
+      );
 
     // Si el usuario es encontrado y la contraseña coincide, entonces
     // Retornamos el token
     // Obtenemos las rutas asociadas al rol del usuario
     const role = await RolModel.findOneRolById(getUser.payload.role.toString());
-    if (!role || role.error || role.statusCode != 200 || role.payload.length <= 0) return res.json(role);
+    if (
+      !role ||
+      role.error ||
+      role.statusCode != 200 ||
+      role.payload.length <= 0
+    )
+      return res.json(role);
     const { toFront, toBack } = role.payload[0];
     const access_page = {
       toFront,
       toBack,
-    }
-    const token: IToken = {
+    };
+    const token = await tokenAuth.createTokenAuth({
       access_page,
-      dataUser: {
-        name: getUser.payload.name,
-        lastname: getUser.payload.last_name,
-        email: getUser.payload.email,
-      }
-    }
-    return res.json(Hook.Message(true, 200, "Token", tokenAuth.createTokenAuth(token)));
+      _id: getUser.payload._id,
+      iat: Hook.getTime(30),
+    });
+    const dataUser: IDataUser = {
+      name: getUser.payload.name,
+      lastname: getUser.payload.last_name,
+      email: getUser.payload.email,
+    };
+    return res.json(
+      Hook.Message(true, 200, "Token", { token, dataUser })
+    );
   }
 
   static async modify(req: any, res: any) {

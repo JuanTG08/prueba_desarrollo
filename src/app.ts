@@ -13,7 +13,9 @@ new Mongo().connect();
 
 const app = express(); // Ejecutamos el servidor
 
-// Importamos las rutas
+// Importamos los middlewares
+import tokenAuth from './middleware/token-auth.middleware';
+
 // import indexRoutes from './routes/index';
 
 // Settings
@@ -41,7 +43,7 @@ import travel from './routes/travel.routes';
 app.use('/auth', Auth); // Ruta para la autentificación del usuario
 app.use('/api/access-page', accessPage); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/rol', rol); // Ruta relacionada a la autorizacion de los usuarios
-app.use('/api/user', user); // Ruta relacionada al manejo de los usuarios
+app.use('/api/user', tokenAuth.isLoggedIn, user); // Ruta relacionada al manejo de los usuarios
 app.use('/api/vehicle', vehicle); // Ruta relacionada al manejo de los usuarios
 app.use('/api/travel', travel); // Ruta relacionada al manejo de los viajes
 

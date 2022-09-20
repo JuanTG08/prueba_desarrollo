@@ -14,32 +14,32 @@ class Utils {
     };
   }
   /* Realizamos todas las funciones relacionadas a la encriptación */
-  static encrypt(value) {}
+  static encrypt(value: string) {}
 
   /* Realizamos todo lo relacionado al tiempo */
-  static getStimationTimeMins(timeNow, expiration_time_min) {
+  static getStimationTimeMins(timeNow: number, expiration_time_min: number) {
     const estimateTimeExpirationMin = expiration_time_min * 1000 * 60; // Calculamos los minutos pasados por el argurmento, lo transformamos a minutos
     return timeNow + estimateTimeExpirationMin; // Le establecemos esos minutos al tiempo actual
   }
 
   /* Verificamos el rol correspondiente */
-  static isVerRol(req, rolArray) {
+  static isVerRol(req: any, rolArray: any) {
     const role = req.body.sessionID.role || "";
-    return rolArray.filter((rol) => role === rol).length > 0;
+    return rolArray.filter((rol: any) => role === rol).length > 0;
   }
 
   /* Verificacion de las variables */
-  static isNumeric(value) {
+  static isNumeric(value: string) {
     return typeof value === "number" ? value : undefined;
   }
-  static isString(value) {
+  static isString(value: string) {
     return typeof value === "string" ? value : undefined;
   }
-  static isBoolean(value) {
+  static isBoolean(value: string) {
     return typeof value === "boolean" ? value : undefined;
   }
   /* Verificamos la longitud del campo dado */
-  static _length(value, max, min) {
+  static _length(value: any, max: number, min: number) {
     if (value === undefined) return undefined;
     if (typeof value == "object")
       return value.length <= max && value.length >= min ? value : undefined;
@@ -47,8 +47,8 @@ class Utils {
     return value.length <= max && value.length >= min ? value : undefined;
   }
   /* Estructuramos los datos de un objeto */
-  static structureObject(obj) {
-    let response = {};
+  static structureObject(obj: any) {
+    let response: any = {};
     Object.entries(obj).forEach(([key, val]) => {
       if (val !== undefined) response[key] = val;
     });
@@ -56,8 +56,8 @@ class Utils {
   }
 
   /* Verificacion del total de datos en un Array */
-  static verifyDataObject = (obj, exception = []) => {
-    let error = [];
+  static verifyDataObject = (obj: any, exception: any = []) => {
+    let error: any = [];
     Object.entries(obj).forEach(([key, val]) => {
       if (!exception.includes(<never>key)) {
         if (val === undefined || val === null) error.push(<never>key);
@@ -67,7 +67,7 @@ class Utils {
   };
 
   /* Obtenemos el tiempo deseado */
-  static getTime = (min = 0) => {
+  static getTime = (min: number = 0) => {
     const miliseconds = 60000 * min;
     return new Date(new Date().getTime() + miliseconds).getTime();
   };

@@ -2,13 +2,14 @@ import Hook from "../config/utils";
 import AccessPages from "../model/access-pages.model";
 
 class AccessPagesCtrl {
-  static async createNewPage(req, res) {
-    const { namePath, descriptionPath, path, nameMiniature } = req.body;
+  static async createNewPage(req: any, res: any) {
+    const { name, description, path, method, from } = req.body;
     const data = {
-      namePath: Hook._length(namePath, 32, 4),
-      descriptionPath: Hook._length(descriptionPath, 64, 4),
-      path: Hook._length(path, 64, 1),
-      nameMiniature: Hook._length(nameMiniature, 64, 1),
+      name: Hook._length(name, 64, 4),
+      description: Hook._length(description, 250, 4),
+      path: Hook._length(path, 128, 1),
+      method: Hook._length(method, 12, 1),
+      from: Hook._length(from, 5, 1),
     };
     const dataVerify = Hook.verifyDataObject(data);
     if (dataVerify !== true)
@@ -17,33 +18,33 @@ class AccessPagesCtrl {
     return res.json(newPage);
   }
 
-  static async listAllPages(req, res) {
+  static async listAllPages(req: any, res: any) {
     return res.json(await AccessPages.listAllPages());
   }
 
-  static async findOnePageByPath(req, res) {
+  static async findOnePageByPath(req: any, res: any) {
     const { path } = req.params;
     if (!Hook._length(path, 64, 1))
       return res.json(Hook.Message(true, 0, "Campos Vacios"));
     return res.json(await AccessPages.findOnePageByPath(path));
   }
 
-  static async findOnePageById(req, res) {
+  static async findOnePageById(req: any, res: any) {
     const { _id } = req.params;
     if (!_id || _id.length === 0)
       return res.json(Hook.Message(true, 0, "Campos Vacios"));
     return res.json(await AccessPages.findOnePageById(_id));
   }
 
-  static async modifyOneAccessPage(req, res) {
+  static async modifyOneAccessPage(req: any, res: any) {
     const { _id } = req.params;
-    const { namePath, descriptionPath, path, nameMiniature, status } = req.body;
+    const { name, description, path, method, from, status } = req.body;
     const data = {
-      namePath: Hook._length(namePath, 32, 4),
-      descriptionPath: Hook._length(descriptionPath, 64, 4),
-      path: Hook._length(path, 64, 1),
-      nameMiniature: Hook._length(nameMiniature, 32, 1),
-      status: Hook.isBoolean(status),
+      name: Hook._length(name, 64, 4),
+      description: Hook._length(description, 250, 4),
+      path: Hook._length(path, 128, 1),
+      method: Hook._length(method, 12, 1),
+      from: Hook._length(from, 5, 1),
     };
     const strObject = await Hook.structureObject(data);
     if (!strObject || !_id || _id.length === 0)
@@ -51,14 +52,14 @@ class AccessPagesCtrl {
     return res.json(await AccessPages.modifyOneAccessPage(strObject, _id));
   }
 
-  static async disableAccessPages(req, res) {
+  static async disableAccessPages(req: any, res: any) {
     const { _id } = req.params;
     if (!_id || _id.length === 0)
       return res.json(Hook.Message(true, 0, "Campos Vacios"));
     return res.json(await AccessPages.disableAccessPages(_id));
   }
 
-  static async deleteAccessPage(req, res) {
+  static async deleteAccessPage(req: any, res: any) {
     const { _id } = req.params;
     if (!_id || _id.length === 0)
       return res.json(Hook.Message(true, 0, "Campos Vacios"));

@@ -12,17 +12,17 @@ const AccessPageSchema = new mongoose.Schema({
     },
     path: {
         type: String,
-        unique: true
     },
     method: {
         type: String,
     },
-    from: {
+    from: { // Que categoria pertenece
         type: String,
         enum: ['front', 'back']
     },
     status: {
-        type: Boolean
+        type: Boolean,
+        default: true
     }
 }, {
     versionKey: false,

@@ -1,18 +1,10 @@
 // Creamos la instancia de la ruta por defecto en express
 import { Router } from "express";
+// Importamos funciones de nuestro controlador
+import AccessPagesCtrl from '../controller/access-page.controller';
 
 const router = Router();
 
-// Importamos funciones de nuestro controlador
-const {
-    createNewPage, // Creamos nueva pagina
-    listAllPages, // Enlistamos todas las paginas
-    findOnePageByPath, // Encontramos una nueva pagina por el "path"
-    findOnePageById, // Encontramos una pagina por el ID
-    modifyOneAccessPage, // Modificamos el acceso de alguna pagina
-    disableAccessPages, // Desabilitamos el acceso a una pagina
-    deleteAccessPage, // Eliminamos una pagina
-} = require('../controller/access-pages.controller');
 
 /*
     CRUD
@@ -23,16 +15,16 @@ const {
 */
 
 router.route('/handdler-CR-access-page')
-    .get(listAllPages)
-    .post(createNewPage)
+    .get(AccessPagesCtrl.listAllPages) // Enlistamos todas las paginas
+    .post(AccessPagesCtrl.createNewPage) // Creamos nueva pagina
 
 router.route('/handdler-RUDD-access-page/:_id')
-    .get(findOnePageById)
-    .put(modifyOneAccessPage)
-    .post(disableAccessPages)
-    .delete(deleteAccessPage)
+    .get(AccessPagesCtrl.findOnePageById) // Encontramos una pagina por el ID
+    .put(AccessPagesCtrl.modifyOneAccessPage) // Modificamos el acceso de alguna pagina
+    .post(AccessPagesCtrl.disableAccessPages) // Desabilitamos el acceso a una pagina
+    .delete(AccessPagesCtrl.deleteAccessPage) // Eliminamos una pagina
 
 router.route('/handdler-R-access-page/:path')
-    .get(findOnePageByPath)
+    .get(AccessPagesCtrl.findOnePageByPath) // Encontramos una nueva pagina por el "path"
 
 export default router;

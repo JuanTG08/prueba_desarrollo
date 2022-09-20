@@ -1,8 +1,9 @@
+import { ObjectId } from "mongoose";
 import Hook from "../config/utils";
 import AccessPages from "./schema/access-pages.schema";
 
 class AccessPagesModel {
-    static createNewPage(data) {
+    static createNewPage(data: any) {
         const page = new AccessPages(data);
         return page.save()
             .then(resp => {
@@ -21,7 +22,7 @@ class AccessPagesModel {
                 return Hook.Message(false, 500, "Error al intentar generar esta acción");
             });
     }
-    static findOnePageByPath(path) {
+    static findOnePageByPath(path: string) {
         return AccessPages.find({ path })
             .then(resp => {
                 if (resp.length > 0) return Hook.Message(false, 200, "Ok", resp);
@@ -30,7 +31,7 @@ class AccessPagesModel {
                 return Hook.Message(false, 500, "Error al intentar generar esta acción");
             });
     }
-    static findOnePageById(_id) {
+    static findOnePageById(_id: ObjectId) {
         return AccessPages.find({ _id })
             .then(resp => {
                 if (resp.length > 0) return Hook.Message(false, 200, "Ok", resp);
@@ -40,7 +41,7 @@ class AccessPagesModel {
             });
     }
 
-    static modifyOneAccessPage(data, _id) {
+    static modifyOneAccessPage(data: any, _id: ObjectId) {
         return AccessPages.findByIdAndUpdate(_id, data)
             .then(resp => {
                 return Hook.Message(false, 200, "Se Actualizo correctamente");
@@ -49,7 +50,7 @@ class AccessPagesModel {
             });
     }
 
-    static disableAccessPages(_id) {
+    static disableAccessPages(_id: ObjectId) {
         return AccessPages.findByIdAndUpdate(_id, { status: false })
             .then(resp => {
                 return Hook.Message(false, 200, "Se deshabilito correctamente");
@@ -58,7 +59,7 @@ class AccessPagesModel {
             });
     }
 
-    static deleteAccessPage(_id) {
+    static deleteAccessPage(_id: ObjectId) {
         return AccessPages.findByIdAndRemove(_id)
             .then(resp => {
                 return Hook.Message(false, 200, "Se Elimino correctamente");

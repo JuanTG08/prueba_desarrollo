@@ -5,10 +5,10 @@ import Hook from '../config/utils';
 import UserModel from '../model/user.model';
 
 class tokenAuth {
-    static createTokenAuth(payload) { // Creamos el token de autentificación para los usuarios
+    static createTokenAuth(payload: any) { // Creamos el token de autentificación para los usuarios
         return jwt.sign(payload, env.SECRET_SERVER);
     }
-    static verifyToken(bearerToken) { // Realizamos las verificaciones validas al token
+    static verifyToken(bearerToken: string) { // Realizamos las verificaciones validas al token
         if (!bearerToken) return Hook.Message(true, 401, "Unauthorized"); // Debemos realizar el error correspondiente
         const tokenDess = bearerToken.split(" ")[1];
         try {
@@ -21,18 +21,18 @@ class tokenAuth {
         }
     }
 
-    static verifyTimeToken(iat) { // Verificamos el token por tiempo
+    static verifyTimeToken(iat: number) { // Verificamos el token por tiempo
         return new Date().getTime() < iat;
     }
 
-    static async isLoggedIn(req, res, next) {
+    static async isLoggedIn(req: any, res: any, next: any) {
         const { authorization } = req.headers;
         const token: any = tokenAuth.verifyToken(authorization); // Realizamos la verificacion Superficial
-        if (token.statusCode != 200 || !token.others._id) return res.json(token); // Si da algun error lo imprimimos
-        const user = await UserModel.findOneById(token.others._id); // Buscamos el usuario en cuestion
+        if (token.statusCode != 200 || !token.payload._id) return res.json(token); // Si da algun error lo imprimimos
+        const user = await UserModel.findOneById(token.payload._id); // Buscamos el usuario en cuestion
         if (user.error || user.statusCode != 200) return res.json(user); // Si no existe el usuario en cuestion
-        if (!user.others.status) return res.json(Hook.Message(true, 500, "Disabled User")); // Si el usuario esta deshabilitado
-        req.user_role = user.others.role;
+        if (!user.payload.status) return res.json(Hook.Message(true, 500, "Disabled User")); // Si el usuario esta deshabilitado
+        req.user_role = user.payload.role;
         req.isLooged = true;
         next();
     }

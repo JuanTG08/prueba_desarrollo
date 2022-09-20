@@ -1,9 +1,9 @@
 import Hook from '../config/utils';
-
-const User = require("./schemas/user.schemas");
+import User from "./schema/user.schema";
+import { ObjectId } from 'mongoose';
 
 class UserModel {
-    createNewUser(data) {
+    static createNewUser(data) {
         const user = new User(data);
         return user.save()
             .then(resp => {
@@ -13,7 +13,7 @@ class UserModel {
             });
     }
 
-    listAllUsers() {
+    static listAllUsers() {
         return User.find({})
             .then(resp => {
                 if (resp.length > 0) return Hook.Message(false, 200, "Se obtuvieron todas los usuarios", resp);
@@ -23,7 +23,7 @@ class UserModel {
             });
     }
 
-    findOneUserByLogin({ email, password }) {
+    static findOneUserByLogin({ email, password }) {
         return User.findOne({ email, password })
             .then(user => {
                 if (user) return Hook.Message(false, 200, "Usuario encontrado", user);
@@ -41,6 +41,32 @@ class UserModel {
             }).catch(err => {
                 return Hook.Message(true, 500, "Error al intentar generar esta acción");
             })
+    }
+    static modifyOneUser(data: any, _id: ObjectId) {
+        return User.findByIdAndUpdate(_id, data)
+            .then(resp => {
+                return Hook.Message(false, 200, "Se Actualizo correctamente");
+            }).catch(err => {
+                return Hook.Message(false, 500, "Error al intentar generar esta acción");
+            });
+    }
+
+    static disable(_id: ObjectId) {
+        return User.findByIdAndUpdate(_id, { status: false })
+            .then(resp => {
+                return Hook.Message(false, 200, "Se deshabilito correctamente");
+            }).catch(err => {
+                return Hook.Message(false, 500, "Error al intentar generar esta acción");
+            });
+    }
+
+    static delete(_id: ObjectId) {
+        return User.findByIdAndRemove(_id)
+            .then(resp => {
+                return Hook.Message(false, 200, "Se Elimino correctamente");
+            }).catch(err => {
+                return Hook.Message(false, 500, "Error al intentar generar esta acción");
+            });
     }
 }
 

@@ -35,7 +35,7 @@ class Utils {
   static isString(value: string) {
     return typeof value === "string" ? value : undefined;
   }
-  static isBoolean(value: string) {
+  static isBoolean(value: any) {
     return typeof value === "boolean" ? value : undefined;
   }
   /* Verificamos la longitud del campo dado */
@@ -56,7 +56,7 @@ class Utils {
   }
 
   /* Verificacion del total de datos en un Array */
-  static verifyDataObject = (obj: any, exception: any = []) => {
+  static verifyDataObject = (obj: any, exception: string[] = []) => {
     let error: any = [];
     Object.entries(obj).forEach(([key, val]) => {
       if (!exception.includes(<never>key)) {

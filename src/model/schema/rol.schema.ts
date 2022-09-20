@@ -6,6 +6,10 @@ const RoleSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    description: {
+        type: String,
+        required: true
+    },
     toBack: [
         {
             ref: 'Access-Page',
@@ -19,7 +23,8 @@ const RoleSchema = new mongoose.Schema({
         }
     ],
     status: {
-        type: Boolean
+        type: Boolean,
+        default: true
     }
 }, {
     versionKey: false,

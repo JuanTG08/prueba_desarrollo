@@ -35,4 +35,4 @@ router.route('/handdler-RUDD-access-page/:_id')
 router.route('/handdler-R-access-page/:path')
     .get(findOnePageByPath)
 
-module.exports = router;
+export default router;

@@ -24,8 +24,11 @@ app.use(cors());
 *   Rutas
 *
 */
-app.use('/api/access-page', (req, res) => console.log(req)); // Ruta relacionada a la autorizacion de los usuarios
-app.use('/apo/:id', (req, res) => console.log(req));
+// Importamos las rutas ***
+import accessPage from './routes/access-page.routes';
+
+// Establecemos las rutas ***
+app.use('/api/access-page', accessPage); // Ruta relacionada a la autorizacion de los usuarios
 
 // Este folder se usara para el almacenamiento de archivos publicos
 // app.use('/uploads', express.static(path.resolve('uploads')));

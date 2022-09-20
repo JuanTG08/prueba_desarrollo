@@ -20,7 +20,8 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-// app.use('/api', indexRoutes);
+app.use('/api', (req, res) => console.log(req));
+app.use('/apo/:id', (req, res) => console.log(req));
 
 // Este folder se usara para el almacenamiento de archivos publicos
 // app.use('/uploads', express.static(path.resolve('uploads')));

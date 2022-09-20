@@ -14,6 +14,9 @@ const AccessPageSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    method: {
+        type: String,
+    },
     from: {
         type: String,
         enum: ['front', 'back']

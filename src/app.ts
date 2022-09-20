@@ -19,8 +19,12 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 
-// Routes
-app.use('/api', (req, res) => console.log(req));
+/*
+*
+*   Rutas
+*
+*/
+app.use('/api/access-page', (req, res) => console.log(req)); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/apo/:id', (req, res) => console.log(req));
 
 // Este folder se usara para el almacenamiento de archivos publicos

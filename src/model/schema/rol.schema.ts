@@ -9,7 +9,7 @@ const RoleSchema = new mongoose.Schema({
     toBack: [
         {
             ref: 'Access-Page',
-            type: String,
+            type: Array,
         }
     ],
     toFront: [

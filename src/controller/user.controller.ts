@@ -1,5 +1,8 @@
 import Hook from "../config/utils";
 import UserModel from "../model/user.model";
+import { IToken } from '../interface/IToken';
+import RolModel from '../model/rol.model';
+import tokenAuth from "../middleware/token-auth.middleware";
 
 class UserCtrl {
   static async createNewUser(req: any, res: any) {
@@ -47,7 +50,23 @@ class UserCtrl {
 
     // Si el usuario es encontrado y la contraseña coincide, entonces
     // Retornamos el token
-    return res.json(Hook.Message(true, 200, "Token"));
+    // Obtenemos las rutas asociadas al rol del usuario
+    const role = await RolModel.findOneRolById(getUser.payload.role.toString());
+    if (!role || role.error || role.statusCode != 200 || role.payload.length <= 0) return res.json(role);
+    const { toFront, toBack } = role.payload[0];
+    const access_page = {
+      toFront,
+      toBack,
+    }
+    const token: IToken = {
+      access_page,
+      dataUser: {
+        name: getUser.payload.name,
+        lastname: getUser.payload.last_name,
+        email: getUser.payload.email,
+      }
+    }
+    return res.json(Hook.Message(true, 200, "Token", tokenAuth.createTokenAuth(token)));
   }
 
   static async modify(req: any, res: any) {

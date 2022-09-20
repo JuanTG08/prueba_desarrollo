@@ -3,9 +3,10 @@ import env from '../config/config';
 import Hook from '../config/utils';
 
 import UserModel from '../model/user.model';
+import { IToken } from '../interface/IToken';
 
 class tokenAuth {
-    static createTokenAuth(payload: any) { // Creamos el token de autentificación para los usuarios
+    static createTokenAuth(payload: IToken) { // Creamos el token de autentificación para los usuarios
         return jwt.sign(payload, env.SECRET_SERVER);
     }
     static verifyToken(bearerToken: string) { // Realizamos las verificaciones validas al token
@@ -37,3 +38,5 @@ class tokenAuth {
         next();
     }
 }
+
+export default tokenAuth;

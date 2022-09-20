@@ -41,11 +41,11 @@ import travel from './routes/travel.routes';
 
 // Establecemos las rutas ***
 app.use('/auth', Auth); // Ruta para la autentificación del usuario
-app.use('/api/access-page', accessPage); // Ruta relacionada a la autorizacion de los usuarios
-app.use('/api/rol', rol); // Ruta relacionada a la autorizacion de los usuarios
+app.use('/api/access-page', tokenAuth.isLoggedIn, accessPage); // Ruta relacionada a la autorizacion de los usuarios
+app.use('/api/rol', tokenAuth.isLoggedIn, rol); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/user', tokenAuth.isLoggedIn, user); // Ruta relacionada al manejo de los usuarios
-app.use('/api/vehicle', vehicle); // Ruta relacionada al manejo de los usuarios
-app.use('/api/travel', travel); // Ruta relacionada al manejo de los viajes
+app.use('/api/vehicle', tokenAuth.isLoggedIn, vehicle); // Ruta relacionada al manejo de los usuarios
+app.use('/api/travel', tokenAuth.isLoggedIn, travel); // Ruta relacionada al manejo de los viajes
 
 // Este folder se usara para el almacenamiento de archivos publicos
 // app.use('/uploads', express.static(path.resolve('uploads')));

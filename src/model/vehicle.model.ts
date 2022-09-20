@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 import Hook from "../config/utils";
-import Vehicle from "./schema/rol.schema";
+import Vehicle from "./schema/vehicle.schema";
 
 class VehicleModel {
     static create(data: any) {
@@ -13,8 +13,8 @@ class VehicleModel {
                 return Hook.Message(false, 500, "Error al intentar generar esta acción");
             });
     }
-    static listAll() {
-        return Vehicle.find()
+    static listAll(propietario: ObjectId) {
+        return Vehicle.find({ propietario })
             .then(resp => {
                 if (resp.length > 0) return Hook.Message(false, 200, "Listado", resp);
                 return Hook.Message(false, 501, "No se encontro nada.");
@@ -33,8 +33,8 @@ class VehicleModel {
             });
     }
 
-    static modify(data: any, _id: ObjectId) {
-        return Vehicle.findByIdAndUpdate(_id, data)
+    static modify(data: any, query: any) {
+        return Vehicle.findByIdAndUpdate(query, data)
             .then(resp => {
                 return Hook.Message(false, 200, "Se Actualizo correctamente");
             }).catch(err => {

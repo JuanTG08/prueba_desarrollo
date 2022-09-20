@@ -10,11 +10,11 @@ const VehicleSchema = new mongoose.Schema({
         required: true,
     },
     fecha_tarjeta_op: {
-        type: Date,
+        type: String,
         required: true,
     },
     fecha_soat: {
-        type: Date,
+        type: String,
         required: true,
     },
     cilindraje: {
@@ -27,7 +27,7 @@ const VehicleSchema = new mongoose.Schema({
     },
     travel_status: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     status: {
         type: Boolean,
@@ -40,5 +40,5 @@ const VehicleSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model('User', VehicleSchema);
-export default User;
+const Vehicle = mongoose.model('Vehicle', VehicleSchema);
+export default Vehicle;

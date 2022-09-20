@@ -13,8 +13,8 @@ class TravelModel {
                 return Hook.Message(false, 500, "Error al intentar generar esta acción");
             });
     }
-    static listAll(propietario: ObjectId) {
-        return Travel.find({ propietario })
+    static listAll() {
+        return Travel.find({ travel_status: 'wait', status: true })
             .then(resp => {
                 if (resp.length > 0) return Hook.Message(false, 200, "Listado", resp);
                 return Hook.Message(false, 501, "No se encontro nada.");

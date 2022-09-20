@@ -7,6 +7,7 @@ const VehicleSchema = new mongoose.Schema({
     },
     placa: {
         type: String,
+        unique: true,
         required: true,
     },
     fecha_tarjeta_op: {

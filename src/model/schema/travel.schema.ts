@@ -10,7 +10,15 @@ const TravelSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    date_ac: { // Fecha Aceptado
+    comment: {
+        type: String,
+        required: true
+    },
+    data_init: {
+        type: String,
+        required: true
+    },
+    date_ac: { // Fecha Aceptado --
         type: String,
     },
     date_end: { // Fecha Finalizado
@@ -26,7 +34,7 @@ const TravelSchema = new mongoose.Schema({
     },
     travel_status: {
         type: String,
-        enum: ['wait', 'accept', 'progress', 'finalized'],
+        enum: ['wait', 'accept', 'finalized'],
     },
     status: {
         type: Boolean,

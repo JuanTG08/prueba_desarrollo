@@ -1,5 +1,4 @@
 import Hook from "../config/utils";
-import { IDataRol, IToBack } from '../interface/IDataRol';
 import UserModel from "../model/user.model";
 
 class UserCtrl {
@@ -10,7 +9,7 @@ class UserCtrl {
       password: Hook._length(password, 64, 8),
       name: Hook._length(name, 64, 1),
       last_name: Hook._length(last_name, 64, 1),
-      role: Hook._length(role, 15, 1),
+      role: Hook._length(role, 128, 1),
     };
     const dataVerify = Hook.verifyDataObject(data);
     if (dataVerify !== true)
@@ -28,6 +27,27 @@ class UserCtrl {
     if (!_id || _id.length === 0)
       return res.json(Hook.Message(true, 0, "Campos Vacios"));
     return res.json(await UserModel.findOneById(_id));
+  }
+
+  static async login(req: any, res: any) {
+    // Login de la persona
+    const { email, password } = req.body;
+    const data = {
+      email: Hook._length(email, 64, 4),
+      password: Hook._length(password, 64, 8),
+    };
+    const dataVerify = Hook.verifyDataObject(data);
+    if (dataVerify !== true)
+      return res.json(Hook.Message(true, 0, "Campos Vacios", dataVerify));
+    const getUser = await UserModel.findOneUserByLogin(email);
+    if (!getUser || getUser.error || getUser.statusCode != 200 || !getUser.payload)
+        return res.json(getUser);
+    if (getUser.payload.length <= 0 || getUser.payload.password != password)
+        return res.json(Hook.Message(true, 401, "Usuario o Contraseña incorrectos"));
+
+    // Si el usuario es encontrado y la contraseña coincide, entonces
+    // Retornamos el token
+    return res.json(Hook.Message(true, 200, "Token"));
   }
 
   static async modify(req: any, res: any) {

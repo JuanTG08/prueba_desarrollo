@@ -3,7 +3,7 @@ import User from "./schema/user.schema";
 import { ObjectId } from 'mongoose';
 
 class UserModel {
-    static createNewUser(data) {
+    static createNewUser(data: any) {
         const user = new User(data);
         return user.save()
             .then(resp => {
@@ -23,8 +23,8 @@ class UserModel {
             });
     }
 
-    static findOneUserByLogin({ email, password }) {
-        return User.findOne({ email, password })
+    static findOneUserByLogin(email: string) {
+        return User.findOne({email})
             .then(user => {
                 if (user) return Hook.Message(false, 200, "Usuario encontrado", user);
                 return Hook.Message(true, 501, "No se encontro nada.");
@@ -33,7 +33,7 @@ class UserModel {
             });
     }
 
-    static findOneById(_id) {
+    static findOneById(_id: ObjectId) {
         return User.findById(_id, 'role status') // Solo vamos a pedir el role y el status
             .then(user => {
                 if (user) return Hook.Message(false, 200, "Usuario encontrado", user);

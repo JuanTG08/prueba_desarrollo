@@ -82,7 +82,7 @@ class UserCtrl {
       email: getUser.payload.email,
     };
     return res.json(
-      Hook.Message(true, 200, "Token", { token, dataUser })
+      Hook.Message(false, 200, "Token", { token, dataUser })
     );
   }
 

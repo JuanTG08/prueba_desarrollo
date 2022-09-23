@@ -34,6 +34,7 @@ app.use(cors());
 // Importamos las rutas ***
 import Auth from './routes/auth.routes';
 import accessPage from './routes/access-page.routes';
+import recaptcha from './routes/recaptcha.routes';
 import rol from './routes/rol.routes';
 import user from './routes/user.routes';
 import vehicle from './routes/vehicle.routes';
@@ -41,11 +42,12 @@ import travel from './routes/travel.routes';
 
 // Establecemos las rutas ***
 app.use('/auth', Auth); // Ruta para la autentificación del usuario
+app.use('/api/recaptcha', recaptcha)
 app.use('/api/access-page', tokenAuth.isLoggedIn, accessPage); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/rol', tokenAuth.isLoggedIn, rol); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/user', tokenAuth.isLoggedIn, user); // Ruta relacionada al manejo de los usuarios
 app.use('/api/vehicle', tokenAuth.isLoggedIn, vehicle); // Ruta relacionada al manejo de los usuarios
-app.use('/api/travel', tokenAuth.isLoggedIn, travel); // Ruta relacionada al manejo de los viajes
+app.use('/api/travel', travel); // Ruta relacionada al manejo de los viajes
 
 // Este folder se usara para el almacenamiento de archivos publicos
 // app.use('/uploads', express.static(path.resolve('uploads')));

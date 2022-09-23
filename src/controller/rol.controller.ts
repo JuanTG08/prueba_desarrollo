@@ -36,8 +36,8 @@ class RolCtrl {
     const data = {
       name: Hook._length(name, 64, 4),
       description: Hook._length(description, 300, 1),
-      toBack: Hook._length(toBack, 999, 1),
-      toFront: Hook._length(toFront, 128, 1),
+      toBack: Hook._length(toBack, 999, 0),
+      toFront: Hook._length(toFront, 128, 0),
       status: Hook.isBoolean(status),
     };
     const strObject = await Hook.structureObject(data);

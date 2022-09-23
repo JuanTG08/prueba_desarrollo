@@ -41,17 +41,15 @@ class tokenAuth {
     const { authorization } = req.headers;
     const token: any = tokenAuth.verifyToken(authorization); // Realizamos la verificacion Superficial
     if (token.statusCode != 200 || !token.payload._id) return res.json(token); // Si da algun error lo imprimimos
-    /*
     const user = await UserModel.findOneById(token.payload._id); // Buscamos el usuario en cuestion
     if (user.error || user.statusCode != 200) return res.json(user); // Si no existe el usuario en cuestion
     if (!user.payload.status)
       return res.json(Hook.Message(true, 500, "Disabled User")); // Si el usuario esta deshabilitado
     req.user_role = user.payload.role;
     req.isLooged = true;
-    */
    // Obtenemos las access_page de toBack
    const { toBack } = token.payload.access_page;
-   if (!toBack || toBack.length <= 0) return res.json(Hook.Message(true, 500, "Disabled User"));
+   if (!toBack || toBack.length <= 0) return res.json(Hook.Message(true, 500, "Disabled User Unhautorized"));
     const { url, method } = req;
     const validPath = tokenAuth.pathValidToBack(toBack, url, method);
     if (!validPath) return res.json(Hook.Message(true, 500, "Disabled User"));

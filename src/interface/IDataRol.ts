@@ -7,6 +7,6 @@ export interface IDataRol {
     name: string;
     description: string;
     toBack: IToBack[];
-    toFront: string;
+    toFront: IToBack[];
     status: Boolean | undefined;
 }

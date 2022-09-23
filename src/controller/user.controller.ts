@@ -66,7 +66,7 @@ class UserCtrl {
       role.payload.length <= 0
     )
       return res.json(role);
-    const { toFront, toBack } = role.payload[0];
+    const { toFront, toBack, name } = role.payload[0];
     const access_page = {
       toFront,
       toBack,
@@ -75,6 +75,7 @@ class UserCtrl {
       access_page,
       _id: getUser.payload._id,
       iat: Hook.getTime(30),
+      role: name,
     });
     const dataUser: IDataUser = {
       name: getUser.payload.name,

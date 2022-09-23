@@ -15,4 +15,5 @@ export interface IToken {
     access_page: IAccessPage;
     _id: string;
     iat: number;
+    role: string;
 }

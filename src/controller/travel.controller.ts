@@ -122,8 +122,8 @@ class TravelCtrl {
     );
   }
 
-  static async listAll(req: any, res: any) {
-    return res.json(await TravelModel.listAll());
+  static async listAll() {
+    return await TravelModel.listAll();
   }
 
   static async findOneById(req: any, res: any) {

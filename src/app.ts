@@ -1,6 +1,5 @@
-import express from 'express'
+import express from 'express';
 import morgan from 'morgan';
-import path from 'path';
 import cors from 'cors';
 
 // Obtenemos las variables de configuraciones
@@ -46,7 +45,7 @@ app.use('/api/recaptcha', recaptcha)
 app.use('/api/access-page', tokenAuth.isLoggedIn, accessPage); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/rol', tokenAuth.isLoggedIn, rol); // Ruta relacionada a la autorizacion de los usuarios
 app.use('/api/user', tokenAuth.isLoggedIn, user); // Ruta relacionada al manejo de los usuarios
-app.use('/api/vehicle', tokenAuth.isLoggedIn, vehicle); // Ruta relacionada al manejo de los usuarios
+app.use('/api/vehicle', tokenAuth.isLoggedIn, vehicle); // Ruta relacionada al manejo de los vehiculos
 app.use('/api/travel', travel); // Ruta relacionada al manejo de los viajes
 
 // Este folder se usara para el almacenamiento de archivos publicos

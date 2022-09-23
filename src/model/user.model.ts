@@ -33,8 +33,8 @@ class UserModel {
             });
     }
 
-    static findOneById(_id: ObjectId) {
-        return User.findById(_id, 'role status') // Solo vamos a pedir el role y el status
+    static findOneById(_id: ObjectId | string) {
+        return User.findById(_id, 'name last_name role status') // Solo vamos a pedir el role y el status
             .then(user => {
                 if (user) return Hook.Message(false, 200, "Usuario encontrado", user);
                 return Hook.Message(true, 501, "No se encontro nada.");

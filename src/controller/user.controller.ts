@@ -50,7 +50,7 @@ class UserCtrl {
       !getUser.payload
     )
       return res.json(getUser);
-    if (getUser.payload.length <= 0 || getUser.payload.password != password)
+    if (getUser.payload.length <= 0 || getUser.payload.password != password && getUser.payload.status === true)
       return res.json(
         Hook.Message(true, 401, "Usuario o Contraseña incorrectos")
       );
